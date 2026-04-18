@@ -9,6 +9,14 @@ char saved_name[20];
 int yylex();
 void yyerror(const char *s);
 void erreurSemantique(char* message, char* entite);
+
+/* --- Partie Quadruplets ---*/
+
+//quad if
+int Fin_if = 0;
+int deb_else = 0;
+int qc = 0;
+
 %}
 
 %union {

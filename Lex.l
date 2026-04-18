@@ -1,4 +1,5 @@
 %{
+    #include "quad.h"
     #include "syn.tab.h"
     #include <string.h>
     int nb_ligne=1;
