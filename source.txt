@@ -1,0 +1,46 @@
+BeginProject compilateur;
+
+Setup :
+    %% Test des declarations simples et multiples
+    define a | b | c | i : integer;
+    define x : integer = 5;
+    define moyenne : float = 14.5;
+    
+    %% Test des tableaux
+    define mon_tab : [integer ; 10] ;
+    
+    %% Test des constantes
+    const pi : float = 3.14;
+    const limit : integer = (-10);
+
+Run :
+{
+    %% Test de l'affectation et arithmetique
+    a <- 10;
+    b <- a * 2 + x;
+    
+    %% Test de la condition if-then-else
+    if (b > 15) then {
+        out("b est superieur a 15");
+        x <- x + (-1);
+    } else {
+        out("b est petit");
+    } endIf;
+
+    %% Test de la boucle for
+    for i in 1 to 5 {
+        a <- a + i;
+    } endfor;
+
+    %% Test de la boucle loop while
+    loop while (x < 10) {
+        x <- x + 1;
+        out("boucle en cours", x);
+    } endloop;
+
+    %% Test des entrees/sorties
+    in(c);
+    out("Resultat final : ", a);
+}
+
+EndProject ;
