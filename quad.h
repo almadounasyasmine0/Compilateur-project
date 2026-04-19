@@ -35,9 +35,10 @@ void updateQuad(int num_quad, int colon_quad, char val[]){
 }
 
 void afficher_qdr(){
+    int i;
     printf("********************Les Quadruplets********************\n");
     printf("_______________________________________________________\n");
-    for(int i = 0; i < qc; i++){
+    for(i = 0; i < qc; i++){
         printf("\n %d - ( %s , %s , %s , %s )\n", i, quad[i].oper, quad[i].op1, quad[i].op2, quad[i].res);
         printf("\n_______________________________________________________\n");
     }

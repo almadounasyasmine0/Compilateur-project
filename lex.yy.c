@@ -282,25 +282,25 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 57
-#define YY_END_OF_BUFFER 58
+#define YY_NUM_RULES 56
+#define YY_END_OF_BUFFER 57
 static yyconst short int yy_accept[147] =
     {   0,
-        0,    0,   58,   56,   54,   55,   56,   56,   56,   25,
-       26,   39,   37,   44,   38,   42,   40,   50,   23,   24,
-       35,   43,   34,   56,   56,   56,   56,   56,   56,   56,
-       29,   30,   52,   52,   52,   52,   52,   52,   52,   52,
-       52,   52,   27,   41,   28,   36,    0,   53,   48,    0,
-        0,   50,   22,   32,   33,   31,    0,    0,    0,    0,
-       46,    0,    0,   52,    0,   52,   52,   52,   52,   52,
-       52,    9,   17,   52,   52,   52,   18,   52,   48,    0,
-       51,   45,    0,    0,   47,    3,    0,   52,   52,   52,
-       52,   52,   16,   52,   52,   20,   52,   52,    0,    0,
+        0,    0,   57,   55,   53,   54,   55,   55,   55,   24,
+       25,   38,   36,   43,   37,   41,   39,   49,   22,   23,
+       34,   42,   33,   55,   55,   55,   55,   55,   55,   55,
+       28,   29,   51,   51,   51,   51,   51,   51,   51,   51,
+       51,   51,   26,   40,   27,   35,    0,   52,   47,    0,
+        0,   49,   21,   31,   32,   30,    0,    0,    0,    0,
+       45,    0,    0,   51,    0,   51,   51,   51,   51,   51,
+       51,    9,   17,   51,   51,   51,   18,   51,   47,    0,
+       50,   44,    0,    0,   46,    3,    0,   51,   51,   51,
+       51,   51,   16,   51,   51,   20,   51,   51,    0,    0,
 
-        0,    0,    0,   52,   52,   11,    0,   52,   52,   52,
-       52,   13,   10,   52,    0,    0,    0,    2,    8,   52,
-       12,   52,   52,    7,   52,   14,   49,    0,    0,    5,
-       19,   52,   52,    0,    0,   15,    6,    0,    0,    0,
+        0,    0,    0,   51,   51,   11,    0,   51,   51,   51,
+       51,   13,   10,   51,    0,    0,    0,    2,    8,   51,
+       12,   51,   51,    7,   51,   14,   48,    0,    0,    5,
+       19,   51,   51,    0,    0,   15,    6,    0,    0,    0,
         0,    0,    4,    0,    1,    0
     } ;
 
@@ -470,13 +470,14 @@ char *yytext;
 #line 1 "Lex.l"
 #define INITIAL 0
 #line 2 "Lex.l"
+    #include "quad.h"
     #include "syn.tab.h"
     #include <string.h>
     int nb_ligne=1;
     int nb_colonne=1;
 /* Définitions */
 /* IDF conforme : commence par lettre, min, chiffres, _, pas de __ au milieu, pas de _ à la fin */
-#line 480 "lex.yy.c"
+#line 481 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -627,10 +628,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 17 "Lex.l"
+#line 18 "Lex.l"
 
 
-#line 634 "lex.yy.c"
+#line 635 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -715,276 +716,272 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 19 "Lex.l"
+#line 20 "Lex.l"
 {nb_colonne+=yyleng; return BeginProject_mc;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 20 "Lex.l"
+#line 21 "Lex.l"
 {nb_colonne+=yyleng; return Setup_mc;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 21 "Lex.l"
+#line 22 "Lex.l"
 {nb_colonne+=yyleng; return Run_mc;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 22 "Lex.l"
+#line 23 "Lex.l"
 {nb_colonne+=yyleng; return EndProject_mc;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 23 "Lex.l"
+#line 24 "Lex.l"
 {nb_colonne+=yyleng; return define_mc;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 24 "Lex.l"
+#line 25 "Lex.l"
 {nb_colonne+=yyleng; return int_mc;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 25 "Lex.l"
+#line 26 "Lex.l"
 {nb_colonne+=yyleng; return float_mc;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 26 "Lex.l"
+#line 27 "Lex.l"
 {nb_colonne+=yyleng; return const_mc;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 27 "Lex.l"
+#line 28 "Lex.l"
 {nb_colonne+=yyleng; return if_mc;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 28 "Lex.l"
+#line 29 "Lex.l"
 {nb_colonne+=yyleng; return then_mc;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 29 "Lex.l"
+#line 30 "Lex.l"
 {nb_colonne+=yyleng; return else_mc;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 30 "Lex.l"
+#line 31 "Lex.l"
 {nb_colonne+=yyleng; return endIf_mc;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 31 "Lex.l"
+#line 32 "Lex.l"
 {nb_colonne+=yyleng; return loop_mc;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 32 "Lex.l"
+#line 33 "Lex.l"
 {nb_colonne+=yyleng; return while_mc;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 33 "Lex.l"
+#line 34 "Lex.l"
 {nb_colonne+=yyleng; return endloop_mc;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 34 "Lex.l"
+#line 35 "Lex.l"
 {nb_colonne+=yyleng; return for_mc;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 35 "Lex.l"
+#line 36 "Lex.l"
 {nb_colonne+=yyleng; return in_mc;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 36 "Lex.l"
+#line 37 "Lex.l"
 {nb_colonne+=yyleng; return to_mc;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 37 "Lex.l"
+#line 38 "Lex.l"
 {nb_colonne+=yyleng; return endfor_mc;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 38 "Lex.l"
+#line 39 "Lex.l"
 {nb_colonne+=yyleng; return out_mc;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 39 "Lex.l"
-{nb_colonne+=yyleng; return in_mc;}
-	YY_BREAK
-case 22:
-YY_RULE_SETUP
 #line 41 "Lex.l"
 {nb_colonne+=yyleng; return affectation;}
 	YY_BREAK
-case 23:
+case 22:
 YY_RULE_SETUP
 #line 42 "Lex.l"
 {nb_colonne+=yyleng; return deux_points;}
 	YY_BREAK
-case 24:
+case 23:
 YY_RULE_SETUP
 #line 43 "Lex.l"
 {nb_colonne+=yyleng; return point_virg;}
 	YY_BREAK
-case 25:
+case 24:
 YY_RULE_SETUP
 #line 44 "Lex.l"
 {nb_colonne+=yyleng; return parenthese_ouvrante;}
 	YY_BREAK
-case 26:
+case 25:
 YY_RULE_SETUP
 #line 45 "Lex.l"
 {nb_colonne+=yyleng; return parenthese_fermante;}
 	YY_BREAK
-case 27:
+case 26:
 YY_RULE_SETUP
 #line 46 "Lex.l"
 {nb_colonne+=yyleng; return accolade_ouvrante;}
 	YY_BREAK
-case 28:
+case 27:
 YY_RULE_SETUP
 #line 47 "Lex.l"
 {nb_colonne+=yyleng; return accolade_fermante;}
 	YY_BREAK
-case 29:
+case 28:
 YY_RULE_SETUP
 #line 48 "Lex.l"
 {nb_colonne+=yyleng; return crochet_ouvrant;}
 	YY_BREAK
-case 30:
+case 29:
 YY_RULE_SETUP
 #line 49 "Lex.l"
 {nb_colonne+=yyleng; return crochet_fermant;}
 	YY_BREAK
-case 31:
+case 30:
 YY_RULE_SETUP
 #line 51 "Lex.l"
 {nb_colonne+=yyleng; return sup_egal;}
 	YY_BREAK
-case 32:
+case 31:
 YY_RULE_SETUP
 #line 52 "Lex.l"
 {nb_colonne+=yyleng; return inf_egal;}
 	YY_BREAK
-case 33:
+case 32:
 YY_RULE_SETUP
 #line 53 "Lex.l"
 {nb_colonne+=yyleng; return egal;}
 	YY_BREAK
-case 34:
+case 33:
 YY_RULE_SETUP
 #line 54 "Lex.l"
 {nb_colonne+=yyleng; return supperieure;}
 	YY_BREAK
-case 35:
+case 34:
 YY_RULE_SETUP
 #line 55 "Lex.l"
 {nb_colonne+=yyleng; return inferieure;}
 	YY_BREAK
-case 36:
+case 35:
 YY_RULE_SETUP
 #line 56 "Lex.l"
 {nb_colonne+=yyleng; return diff_op;}
 	YY_BREAK
-case 37:
+case 36:
 YY_RULE_SETUP
 #line 58 "Lex.l"
 {nb_colonne+=yyleng; yylval.v_type = strdup(yytext); return addition;}
 	YY_BREAK
-case 38:
+case 37:
 YY_RULE_SETUP
 #line 59 "Lex.l"
 {nb_colonne+=yyleng; yylval.v_type = strdup(yytext); return sustra;}
 	YY_BREAK
-case 39:
+case 38:
 YY_RULE_SETUP
 #line 60 "Lex.l"
 {nb_colonne+=yyleng; return multipl;}
 	YY_BREAK
-case 40:
+case 39:
 YY_RULE_SETUP
 #line 61 "Lex.l"
 {nb_colonne+=yyleng; return div_op;}
 	YY_BREAK
-case 41:
+case 40:
 YY_RULE_SETUP
 #line 62 "Lex.l"
 {nb_colonne+=yyleng; return barre_mc;}
 	YY_BREAK
-case 42:
+case 41:
 YY_RULE_SETUP
 #line 63 "Lex.l"
 {nb_colonne+=yyleng; return point;}
 	YY_BREAK
-case 43:
+case 42:
 YY_RULE_SETUP
 #line 64 "Lex.l"
 {nb_colonne+=yyleng; return egal;}
 	YY_BREAK
-case 44:
+case 43:
 YY_RULE_SETUP
 #line 65 "Lex.l"
 {nb_colonne+=yyleng; return virg;}
 	YY_BREAK
-case 45:
+case 44:
 YY_RULE_SETUP
 #line 67 "Lex.l"
 {nb_colonne+=yyleng; return AND_mc;}
 	YY_BREAK
-case 46:
+case 45:
 YY_RULE_SETUP
 #line 68 "Lex.l"
 {nb_colonne+=yyleng; return OR_mc;}
 	YY_BREAK
-case 47:
+case 46:
 YY_RULE_SETUP
 #line 69 "Lex.l"
 {nb_colonne+=yyleng; return NON_mc;}
 	YY_BREAK
-case 48:
+case 47:
 YY_RULE_SETUP
 #line 71 "Lex.l"
 { /* Commentaire ligne : on ne fait rien */ }
 	YY_BREAK
-case 49:
+case 48:
 YY_RULE_SETUP
 #line 72 "Lex.l"
 { 
+    int i;
     /* Commentaire multi-ligne */
-    for(int i=0; i<yyleng; i++) {
+    for(i=0; i<yyleng; i++) {
         if(yytext[i]=='\n') { nb_ligne++; nb_colonne=1; }
         else nb_colonne++;
     }
 }
 	YY_BREAK
-case 50:
+case 49:
 YY_RULE_SETUP
-#line 80 "Lex.l"
+#line 81 "Lex.l"
 {
     nb_colonne += yyleng; 
     yylval.v_type = strdup(yytext); 
     return cst_int; 
 }
 	YY_BREAK
-case 51:
+case 50:
 YY_RULE_SETUP
-#line 86 "Lex.l"
+#line 87 "Lex.l"
 {
     nb_colonne += yyleng; 
     yylval.v_type = strdup(yytext); 
     return cst_float; 
 }
 	YY_BREAK
-case 52:
+case 51:
 YY_RULE_SETUP
-#line 92 "Lex.l"
+#line 93 "Lex.l"
 {
     if(yyleng > 14) {
         printf("Erreur Lexicale : Idf '%s' trop long (>14) a la ligne %d\n", yytext, nb_ligne);
@@ -994,32 +991,32 @@ YY_RULE_SETUP
     return idf;
 }
 	YY_BREAK
+case 52:
+YY_RULE_SETUP
+#line 102 "Lex.l"
+{nb_colonne+=yyleng; yylval.str = strdup(yytext); return chaine;}
+	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 101 "Lex.l"
-{nb_colonne+=yyleng; return chaine;}
+#line 104 "Lex.l"
+{nb_colonne++;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 103 "Lex.l"
-{nb_colonne++;}
+#line 105 "Lex.l"
+{nb_ligne++; nb_colonne=1;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 104 "Lex.l"
-{nb_ligne++; nb_colonne=1;}
+#line 106 "Lex.l"
+{printf("Erreur lexicale [L:%d, C:%d]: entite inconnue '%s'\n", nb_ligne, nb_colonne, yytext); nb_colonne++;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 105 "Lex.l"
-{printf("Erreur lexicale [L:%d, C:%d]: entite inconnue '%s'\n", nb_ligne, nb_colonne, yytext); nb_colonne++;}
-	YY_BREAK
-case 57:
-YY_RULE_SETUP
-#line 107 "Lex.l"
+#line 108 "Lex.l"
 ECHO;
 	YY_BREAK
-#line 1023 "lex.yy.c"
+#line 1020 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1905,4 +1902,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 107 "Lex.l"
+#line 108 "Lex.l"
+

@@ -1,0 +1,1838 @@
+Terminals unused in grammar
+
+   point
+
+
+Grammar
+
+    0 $accept: S $end
+
+    1 S: BeginProject_mc idf point_virg SECTION_SETUP SECTION_RUN EndProject_mc point_virg
+
+    2 SECTION_SETUP: Setup_mc deux_points LISTE_DECLARATIONS
+
+    3 LISTE_DECLARATIONS: UNE_DECLARATION LISTE_DECLARATIONS
+    4                   | /* empty */
+
+    5 UNE_DECLARATION: DECL_DEFINE
+    6                | DECL_CONSTANTE
+
+    7 $@1: /* empty */
+
+    8 DECL_DEFINE: define_mc idf $@1 LISTE_IDFS_SUITE deux_points SUITE_TYPE point_virg
+
+    9 LISTE_IDFS_SUITE: barre_mc idf LISTE_IDFS_SUITE
+   10                 | /* empty */
+
+   11 SUITE_TYPE: TYPE OPT_INIT
+   12           | crochet_ouvrant TYPE point_virg ENTIER crochet_fermant
+
+   13 TYPE: int_mc
+   14     | float_mc
+
+   15 OPT_INIT: egal VALEUR
+   16         | /* empty */
+
+   17 DECL_CONSTANTE: const_mc idf deux_points TYPE egal VALEUR point_virg
+
+   18 SECTION_RUN: Run_mc deux_points accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante
+
+   19 LISTE_INSTRUCTIONS: UNE_INSTRUCTION LISTE_INSTRUCTIONS
+   20                   | /* empty */
+
+   21 UNE_INSTRUCTION: INSTRUCTION_AFFECTATION
+   22                | INSTRUCTION_CONDITION
+   23                | INSTRUCTION_BOUCLE
+   24                | INSTRUCTION_IO
+
+   25 INSTRUCTION_AFFECTATION: idf affectation EXPRESSION point_virg
+   26                        | idf crochet_ouvrant ENTIER crochet_fermant affectation EXPRESSION point_virg
+
+   27 $@2: /* empty */
+
+   28 $@3: /* empty */
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+   30 OPT_DEUX_POINTS: deux_points
+   31                | /* empty */
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+   33                   | for_mc idf in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+   34 INSTRUCTION_IO: out_mc parenthese_ouvrante LISTE_OUT parenthese_fermante point_virg
+   35               | in_mc parenthese_ouvrante idf parenthese_fermante point_virg
+
+   36 LISTE_OUT: chaine
+   37          | chaine virg idf
+   38          | idf
+
+   39 EXPRESSION: EXPRESSION addition TERME
+   40           | EXPRESSION sustra TERME
+   41           | TERME
+
+   42 TERME: TERME multipl FACTEUR
+   43      | TERME div_op FACTEUR
+   44      | FACTEUR
+
+   45 FACTEUR: idf
+   46        | ENTIER
+   47        | REEL
+   48        | idf crochet_ouvrant ENTIER crochet_fermant
+   49        | parenthese_ouvrante EXPRESSION parenthese_fermante
+
+   50 CONDITION: EXPRESSION OPERATEUR_COMP EXPRESSION
+   51          | parenthese_ouvrante CONDITION parenthese_fermante
+   52          | CONDITION AND_mc CONDITION
+   53          | CONDITION OR_mc CONDITION
+   54          | NON_mc CONDITION
+
+   55 OPERATEUR_COMP: supperieure
+   56               | inferieure
+   57               | sup_egal
+   58               | inf_egal
+   59               | egal
+   60               | diff_op
+
+   61 VALEUR: ENTIER
+   62       | REEL
+
+   63 ENTIER: cst_int
+   64       | parenthese_ouvrante SIGNE cst_int parenthese_fermante
+
+   65 REEL: cst_float
+   66     | parenthese_ouvrante SIGNE cst_float parenthese_fermante
+
+   67 SIGNE: addition
+   68      | sustra
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+OR_mc (258) 53
+AND_mc (259) 52
+NON_mc (260) 54
+diff_op (261) 60
+egal (262) 15 17 59
+inf_egal (263) 58
+sup_egal (264) 57
+inferieure (265) 56
+supperieure (266) 55
+sustra (267) 40 68
+addition (268) 39 67
+div_op (269) 43
+multipl (270) 42
+BeginProject_mc (271) 1
+EndProject_mc (272) 1
+Setup_mc (273) 2
+Run_mc (274) 18
+define_mc (275) 8
+const_mc (276) 17
+int_mc (277) 13
+float_mc (278) 14
+if_mc (279) 29
+then_mc (280) 29
+else_mc (281) 29
+endIf_mc (282) 29
+loop_mc (283) 32
+while_mc (284) 32
+endloop_mc (285) 32
+for_mc (286) 33
+in_mc (287) 33 35
+to_mc (288) 33
+endfor_mc (289) 33
+out_mc (290) 34
+affectation (291) 25 26
+barre_mc (292) 9
+deux_points (293) 2 8 17 18 30
+point_virg (294) 1 8 12 17 25 26 29 32 33 34 35
+point (295)
+virg (296) 37
+parenthese_ouvrante (297) 29 32 34 35 49 51 64 66
+parenthese_fermante (298) 29 32 34 35 49 51 64 66
+accolade_ouvrante (299) 18 29 32 33
+accolade_fermante (300) 18 29 32 33
+crochet_ouvrant (301) 12 26 48
+crochet_fermant (302) 12 26 48
+idf (303) 1 8 9 17 25 26 33 35 37 38 45 48
+cst_int (304) 63 64
+cst_float (305) 65 66
+chaine (306) 36 37
+
+
+Nonterminals, with rules where they appear
+
+$accept (52)
+    on left: 0
+S (53)
+    on left: 1, on right: 0
+SECTION_SETUP (54)
+    on left: 2, on right: 1
+LISTE_DECLARATIONS (55)
+    on left: 3 4, on right: 2 3
+UNE_DECLARATION (56)
+    on left: 5 6, on right: 3
+DECL_DEFINE (57)
+    on left: 8, on right: 5
+$@1 (58)
+    on left: 7, on right: 8
+LISTE_IDFS_SUITE (59)
+    on left: 9 10, on right: 8 9
+SUITE_TYPE (60)
+    on left: 11 12, on right: 8
+TYPE (61)
+    on left: 13 14, on right: 11 12 17
+OPT_INIT (62)
+    on left: 15 16, on right: 11
+DECL_CONSTANTE (63)
+    on left: 17, on right: 6
+SECTION_RUN (64)
+    on left: 18, on right: 1
+LISTE_INSTRUCTIONS (65)
+    on left: 19 20, on right: 18 19 29 32 33
+UNE_INSTRUCTION (66)
+    on left: 21 22 23 24, on right: 19
+INSTRUCTION_AFFECTATION (67)
+    on left: 25 26, on right: 21
+INSTRUCTION_CONDITION (68)
+    on left: 29, on right: 22
+$@2 (69)
+    on left: 27, on right: 29
+$@3 (70)
+    on left: 28, on right: 29
+OPT_DEUX_POINTS (71)
+    on left: 30 31, on right: 29
+INSTRUCTION_BOUCLE (72)
+    on left: 32 33, on right: 23
+INSTRUCTION_IO (73)
+    on left: 34 35, on right: 24
+LISTE_OUT (74)
+    on left: 36 37 38, on right: 34
+EXPRESSION (75)
+    on left: 39 40 41, on right: 25 26 39 40 49 50
+TERME (76)
+    on left: 42 43 44, on right: 39 40 41 42 43
+FACTEUR (77)
+    on left: 45 46 47 48 49, on right: 42 43 44
+CONDITION (78)
+    on left: 50 51 52 53 54, on right: 29 32 51 52 53 54
+OPERATEUR_COMP (79)
+    on left: 55 56 57 58 59 60, on right: 50
+VALEUR (80)
+    on left: 61 62, on right: 15 17 33
+ENTIER (81)
+    on left: 63 64, on right: 12 26 46 48 61
+REEL (82)
+    on left: 65 66, on right: 47 62
+SIGNE (83)
+    on left: 67 68, on right: 64 66
+
+
+state 0
+
+    0 $accept: . S $end
+
+    BeginProject_mc  shift, and go to state 1
+
+    S  go to state 2
+
+
+state 1
+
+    1 S: BeginProject_mc . idf point_virg SECTION_SETUP SECTION_RUN EndProject_mc point_virg
+
+    idf  shift, and go to state 3
+
+
+state 2
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 4
+
+
+state 3
+
+    1 S: BeginProject_mc idf . point_virg SECTION_SETUP SECTION_RUN EndProject_mc point_virg
+
+    point_virg  shift, and go to state 5
+
+
+state 4
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+state 5
+
+    1 S: BeginProject_mc idf point_virg . SECTION_SETUP SECTION_RUN EndProject_mc point_virg
+
+    Setup_mc  shift, and go to state 6
+
+    SECTION_SETUP  go to state 7
+
+
+state 6
+
+    2 SECTION_SETUP: Setup_mc . deux_points LISTE_DECLARATIONS
+
+    deux_points  shift, and go to state 8
+
+
+state 7
+
+    1 S: BeginProject_mc idf point_virg SECTION_SETUP . SECTION_RUN EndProject_mc point_virg
+
+    Run_mc  shift, and go to state 9
+
+    SECTION_RUN  go to state 10
+
+
+state 8
+
+    2 SECTION_SETUP: Setup_mc deux_points . LISTE_DECLARATIONS
+
+    define_mc  shift, and go to state 11
+    const_mc   shift, and go to state 12
+
+    $default  reduce using rule 4 (LISTE_DECLARATIONS)
+
+    LISTE_DECLARATIONS  go to state 13
+    UNE_DECLARATION     go to state 14
+    DECL_DEFINE         go to state 15
+    DECL_CONSTANTE      go to state 16
+
+
+state 9
+
+   18 SECTION_RUN: Run_mc . deux_points accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante
+
+    deux_points  shift, and go to state 17
+
+
+state 10
+
+    1 S: BeginProject_mc idf point_virg SECTION_SETUP SECTION_RUN . EndProject_mc point_virg
+
+    EndProject_mc  shift, and go to state 18
+
+
+state 11
+
+    8 DECL_DEFINE: define_mc . idf $@1 LISTE_IDFS_SUITE deux_points SUITE_TYPE point_virg
+
+    idf  shift, and go to state 19
+
+
+state 12
+
+   17 DECL_CONSTANTE: const_mc . idf deux_points TYPE egal VALEUR point_virg
+
+    idf  shift, and go to state 20
+
+
+state 13
+
+    2 SECTION_SETUP: Setup_mc deux_points LISTE_DECLARATIONS .
+
+    $default  reduce using rule 2 (SECTION_SETUP)
+
+
+state 14
+
+    3 LISTE_DECLARATIONS: UNE_DECLARATION . LISTE_DECLARATIONS
+
+    define_mc  shift, and go to state 11
+    const_mc   shift, and go to state 12
+
+    $default  reduce using rule 4 (LISTE_DECLARATIONS)
+
+    LISTE_DECLARATIONS  go to state 21
+    UNE_DECLARATION     go to state 14
+    DECL_DEFINE         go to state 15
+    DECL_CONSTANTE      go to state 16
+
+
+state 15
+
+    5 UNE_DECLARATION: DECL_DEFINE .
+
+    $default  reduce using rule 5 (UNE_DECLARATION)
+
+
+state 16
+
+    6 UNE_DECLARATION: DECL_CONSTANTE .
+
+    $default  reduce using rule 6 (UNE_DECLARATION)
+
+
+state 17
+
+   18 SECTION_RUN: Run_mc deux_points . accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante
+
+    accolade_ouvrante  shift, and go to state 22
+
+
+state 18
+
+    1 S: BeginProject_mc idf point_virg SECTION_SETUP SECTION_RUN EndProject_mc . point_virg
+
+    point_virg  shift, and go to state 23
+
+
+state 19
+
+    8 DECL_DEFINE: define_mc idf . $@1 LISTE_IDFS_SUITE deux_points SUITE_TYPE point_virg
+
+    $default  reduce using rule 7 ($@1)
+
+    $@1  go to state 24
+
+
+state 20
+
+   17 DECL_CONSTANTE: const_mc idf . deux_points TYPE egal VALEUR point_virg
+
+    deux_points  shift, and go to state 25
+
+
+state 21
+
+    3 LISTE_DECLARATIONS: UNE_DECLARATION LISTE_DECLARATIONS .
+
+    $default  reduce using rule 3 (LISTE_DECLARATIONS)
+
+
+state 22
+
+   18 SECTION_RUN: Run_mc deux_points accolade_ouvrante . LISTE_INSTRUCTIONS accolade_fermante
+
+    if_mc    shift, and go to state 26
+    loop_mc  shift, and go to state 27
+    for_mc   shift, and go to state 28
+    in_mc    shift, and go to state 29
+    out_mc   shift, and go to state 30
+    idf      shift, and go to state 31
+
+    $default  reduce using rule 20 (LISTE_INSTRUCTIONS)
+
+    LISTE_INSTRUCTIONS       go to state 32
+    UNE_INSTRUCTION          go to state 33
+    INSTRUCTION_AFFECTATION  go to state 34
+    INSTRUCTION_CONDITION    go to state 35
+    INSTRUCTION_BOUCLE       go to state 36
+    INSTRUCTION_IO           go to state 37
+
+
+state 23
+
+    1 S: BeginProject_mc idf point_virg SECTION_SETUP SECTION_RUN EndProject_mc point_virg .
+
+    $default  reduce using rule 1 (S)
+
+
+state 24
+
+    8 DECL_DEFINE: define_mc idf $@1 . LISTE_IDFS_SUITE deux_points SUITE_TYPE point_virg
+
+    barre_mc  shift, and go to state 38
+
+    $default  reduce using rule 10 (LISTE_IDFS_SUITE)
+
+    LISTE_IDFS_SUITE  go to state 39
+
+
+state 25
+
+   17 DECL_CONSTANTE: const_mc idf deux_points . TYPE egal VALEUR point_virg
+
+    int_mc    shift, and go to state 40
+    float_mc  shift, and go to state 41
+
+    TYPE  go to state 42
+
+
+state 26
+
+   29 INSTRUCTION_CONDITION: if_mc . parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    parenthese_ouvrante  shift, and go to state 43
+
+
+state 27
+
+   32 INSTRUCTION_BOUCLE: loop_mc . while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+
+    while_mc  shift, and go to state 44
+
+
+state 28
+
+   33 INSTRUCTION_BOUCLE: for_mc . idf in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    idf  shift, and go to state 45
+
+
+state 29
+
+   35 INSTRUCTION_IO: in_mc . parenthese_ouvrante idf parenthese_fermante point_virg
+
+    parenthese_ouvrante  shift, and go to state 46
+
+
+state 30
+
+   34 INSTRUCTION_IO: out_mc . parenthese_ouvrante LISTE_OUT parenthese_fermante point_virg
+
+    parenthese_ouvrante  shift, and go to state 47
+
+
+state 31
+
+   25 INSTRUCTION_AFFECTATION: idf . affectation EXPRESSION point_virg
+   26                        | idf . crochet_ouvrant ENTIER crochet_fermant affectation EXPRESSION point_virg
+
+    affectation      shift, and go to state 48
+    crochet_ouvrant  shift, and go to state 49
+
+
+state 32
+
+   18 SECTION_RUN: Run_mc deux_points accolade_ouvrante LISTE_INSTRUCTIONS . accolade_fermante
+
+    accolade_fermante  shift, and go to state 50
+
+
+state 33
+
+   19 LISTE_INSTRUCTIONS: UNE_INSTRUCTION . LISTE_INSTRUCTIONS
+
+    if_mc    shift, and go to state 26
+    loop_mc  shift, and go to state 27
+    for_mc   shift, and go to state 28
+    in_mc    shift, and go to state 29
+    out_mc   shift, and go to state 30
+    idf      shift, and go to state 31
+
+    $default  reduce using rule 20 (LISTE_INSTRUCTIONS)
+
+    LISTE_INSTRUCTIONS       go to state 51
+    UNE_INSTRUCTION          go to state 33
+    INSTRUCTION_AFFECTATION  go to state 34
+    INSTRUCTION_CONDITION    go to state 35
+    INSTRUCTION_BOUCLE       go to state 36
+    INSTRUCTION_IO           go to state 37
+
+
+state 34
+
+   21 UNE_INSTRUCTION: INSTRUCTION_AFFECTATION .
+
+    $default  reduce using rule 21 (UNE_INSTRUCTION)
+
+
+state 35
+
+   22 UNE_INSTRUCTION: INSTRUCTION_CONDITION .
+
+    $default  reduce using rule 22 (UNE_INSTRUCTION)
+
+
+state 36
+
+   23 UNE_INSTRUCTION: INSTRUCTION_BOUCLE .
+
+    $default  reduce using rule 23 (UNE_INSTRUCTION)
+
+
+state 37
+
+   24 UNE_INSTRUCTION: INSTRUCTION_IO .
+
+    $default  reduce using rule 24 (UNE_INSTRUCTION)
+
+
+state 38
+
+    9 LISTE_IDFS_SUITE: barre_mc . idf LISTE_IDFS_SUITE
+
+    idf  shift, and go to state 52
+
+
+state 39
+
+    8 DECL_DEFINE: define_mc idf $@1 LISTE_IDFS_SUITE . deux_points SUITE_TYPE point_virg
+
+    deux_points  shift, and go to state 53
+
+
+state 40
+
+   13 TYPE: int_mc .
+
+    $default  reduce using rule 13 (TYPE)
+
+
+state 41
+
+   14 TYPE: float_mc .
+
+    $default  reduce using rule 14 (TYPE)
+
+
+state 42
+
+   17 DECL_CONSTANTE: const_mc idf deux_points TYPE . egal VALEUR point_virg
+
+    egal  shift, and go to state 54
+
+
+state 43
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante . CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    NON_mc               shift, and go to state 55
+    parenthese_ouvrante  shift, and go to state 56
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 60
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    CONDITION   go to state 63
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 44
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc . parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+
+    parenthese_ouvrante  shift, and go to state 66
+
+
+state 45
+
+   33 INSTRUCTION_BOUCLE: for_mc idf . in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    in_mc  shift, and go to state 67
+
+
+state 46
+
+   35 INSTRUCTION_IO: in_mc parenthese_ouvrante . idf parenthese_fermante point_virg
+
+    idf  shift, and go to state 68
+
+
+state 47
+
+   34 INSTRUCTION_IO: out_mc parenthese_ouvrante . LISTE_OUT parenthese_fermante point_virg
+
+    idf     shift, and go to state 69
+    chaine  shift, and go to state 70
+
+    LISTE_OUT  go to state 71
+
+
+state 48
+
+   25 INSTRUCTION_AFFECTATION: idf affectation . EXPRESSION point_virg
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 73
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 49
+
+   26 INSTRUCTION_AFFECTATION: idf crochet_ouvrant . ENTIER crochet_fermant affectation EXPRESSION point_virg
+
+    parenthese_ouvrante  shift, and go to state 74
+    cst_int              shift, and go to state 58
+
+    ENTIER  go to state 75
+
+
+state 50
+
+   18 SECTION_RUN: Run_mc deux_points accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante .
+
+    $default  reduce using rule 18 (SECTION_RUN)
+
+
+state 51
+
+   19 LISTE_INSTRUCTIONS: UNE_INSTRUCTION LISTE_INSTRUCTIONS .
+
+    $default  reduce using rule 19 (LISTE_INSTRUCTIONS)
+
+
+state 52
+
+    9 LISTE_IDFS_SUITE: barre_mc idf . LISTE_IDFS_SUITE
+
+    barre_mc  shift, and go to state 38
+
+    $default  reduce using rule 10 (LISTE_IDFS_SUITE)
+
+    LISTE_IDFS_SUITE  go to state 76
+
+
+state 53
+
+    8 DECL_DEFINE: define_mc idf $@1 LISTE_IDFS_SUITE deux_points . SUITE_TYPE point_virg
+
+    int_mc           shift, and go to state 40
+    float_mc         shift, and go to state 41
+    crochet_ouvrant  shift, and go to state 77
+
+    SUITE_TYPE  go to state 78
+    TYPE        go to state 79
+
+
+state 54
+
+   17 DECL_CONSTANTE: const_mc idf deux_points TYPE egal . VALEUR point_virg
+
+    parenthese_ouvrante  shift, and go to state 80
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    VALEUR  go to state 81
+    ENTIER  go to state 82
+    REEL    go to state 83
+
+
+state 55
+
+   54 CONDITION: NON_mc . CONDITION
+
+    NON_mc               shift, and go to state 55
+    parenthese_ouvrante  shift, and go to state 56
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 60
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    CONDITION   go to state 84
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 56
+
+   49 FACTEUR: parenthese_ouvrante . EXPRESSION parenthese_fermante
+   51 CONDITION: parenthese_ouvrante . CONDITION parenthese_fermante
+   64 ENTIER: parenthese_ouvrante . SIGNE cst_int parenthese_fermante
+   66 REEL: parenthese_ouvrante . SIGNE cst_float parenthese_fermante
+
+    NON_mc               shift, and go to state 55
+    sustra               shift, and go to state 85
+    addition             shift, and go to state 86
+    parenthese_ouvrante  shift, and go to state 56
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 87
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    CONDITION   go to state 88
+    ENTIER      go to state 64
+    REEL        go to state 65
+    SIGNE       go to state 89
+
+
+state 57
+
+   45 FACTEUR: idf .
+   48        | idf . crochet_ouvrant ENTIER crochet_fermant
+
+    crochet_ouvrant  shift, and go to state 90
+
+    $default  reduce using rule 45 (FACTEUR)
+
+
+state 58
+
+   63 ENTIER: cst_int .
+
+    $default  reduce using rule 63 (ENTIER)
+
+
+state 59
+
+   65 REEL: cst_float .
+
+    $default  reduce using rule 65 (REEL)
+
+
+state 60
+
+   39 EXPRESSION: EXPRESSION . addition TERME
+   40           | EXPRESSION . sustra TERME
+   50 CONDITION: EXPRESSION . OPERATEUR_COMP EXPRESSION
+
+    diff_op      shift, and go to state 91
+    egal         shift, and go to state 92
+    inf_egal     shift, and go to state 93
+    sup_egal     shift, and go to state 94
+    inferieure   shift, and go to state 95
+    supperieure  shift, and go to state 96
+    sustra       shift, and go to state 97
+    addition     shift, and go to state 98
+
+    OPERATEUR_COMP  go to state 99
+
+
+state 61
+
+   41 EXPRESSION: TERME .
+   42 TERME: TERME . multipl FACTEUR
+   43      | TERME . div_op FACTEUR
+
+    div_op   shift, and go to state 100
+    multipl  shift, and go to state 101
+
+    $default  reduce using rule 41 (EXPRESSION)
+
+
+state 62
+
+   44 TERME: FACTEUR .
+
+    $default  reduce using rule 44 (TERME)
+
+
+state 63
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION . parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+   52 CONDITION: CONDITION . AND_mc CONDITION
+   53          | CONDITION . OR_mc CONDITION
+
+    OR_mc                shift, and go to state 102
+    AND_mc               shift, and go to state 103
+    parenthese_fermante  shift, and go to state 104
+
+
+state 64
+
+   46 FACTEUR: ENTIER .
+
+    $default  reduce using rule 46 (FACTEUR)
+
+
+state 65
+
+   47 FACTEUR: REEL .
+
+    $default  reduce using rule 47 (FACTEUR)
+
+
+state 66
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante . CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+
+    NON_mc               shift, and go to state 55
+    parenthese_ouvrante  shift, and go to state 56
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 60
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    CONDITION   go to state 105
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 67
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc . VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    parenthese_ouvrante  shift, and go to state 80
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    VALEUR  go to state 106
+    ENTIER  go to state 82
+    REEL    go to state 83
+
+
+state 68
+
+   35 INSTRUCTION_IO: in_mc parenthese_ouvrante idf . parenthese_fermante point_virg
+
+    parenthese_fermante  shift, and go to state 107
+
+
+state 69
+
+   38 LISTE_OUT: idf .
+
+    $default  reduce using rule 38 (LISTE_OUT)
+
+
+state 70
+
+   36 LISTE_OUT: chaine .
+   37          | chaine . virg idf
+
+    virg  shift, and go to state 108
+
+    $default  reduce using rule 36 (LISTE_OUT)
+
+
+state 71
+
+   34 INSTRUCTION_IO: out_mc parenthese_ouvrante LISTE_OUT . parenthese_fermante point_virg
+
+    parenthese_fermante  shift, and go to state 109
+
+
+state 72
+
+   49 FACTEUR: parenthese_ouvrante . EXPRESSION parenthese_fermante
+   64 ENTIER: parenthese_ouvrante . SIGNE cst_int parenthese_fermante
+   66 REEL: parenthese_ouvrante . SIGNE cst_float parenthese_fermante
+
+    sustra               shift, and go to state 85
+    addition             shift, and go to state 86
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 110
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    ENTIER      go to state 64
+    REEL        go to state 65
+    SIGNE       go to state 89
+
+
+state 73
+
+   25 INSTRUCTION_AFFECTATION: idf affectation EXPRESSION . point_virg
+   39 EXPRESSION: EXPRESSION . addition TERME
+   40           | EXPRESSION . sustra TERME
+
+    sustra      shift, and go to state 97
+    addition    shift, and go to state 98
+    point_virg  shift, and go to state 111
+
+
+state 74
+
+   64 ENTIER: parenthese_ouvrante . SIGNE cst_int parenthese_fermante
+
+    sustra    shift, and go to state 85
+    addition  shift, and go to state 86
+
+    SIGNE  go to state 112
+
+
+state 75
+
+   26 INSTRUCTION_AFFECTATION: idf crochet_ouvrant ENTIER . crochet_fermant affectation EXPRESSION point_virg
+
+    crochet_fermant  shift, and go to state 113
+
+
+state 76
+
+    9 LISTE_IDFS_SUITE: barre_mc idf LISTE_IDFS_SUITE .
+
+    $default  reduce using rule 9 (LISTE_IDFS_SUITE)
+
+
+state 77
+
+   12 SUITE_TYPE: crochet_ouvrant . TYPE point_virg ENTIER crochet_fermant
+
+    int_mc    shift, and go to state 40
+    float_mc  shift, and go to state 41
+
+    TYPE  go to state 114
+
+
+state 78
+
+    8 DECL_DEFINE: define_mc idf $@1 LISTE_IDFS_SUITE deux_points SUITE_TYPE . point_virg
+
+    point_virg  shift, and go to state 115
+
+
+state 79
+
+   11 SUITE_TYPE: TYPE . OPT_INIT
+
+    egal  shift, and go to state 116
+
+    $default  reduce using rule 16 (OPT_INIT)
+
+    OPT_INIT  go to state 117
+
+
+state 80
+
+   64 ENTIER: parenthese_ouvrante . SIGNE cst_int parenthese_fermante
+   66 REEL: parenthese_ouvrante . SIGNE cst_float parenthese_fermante
+
+    sustra    shift, and go to state 85
+    addition  shift, and go to state 86
+
+    SIGNE  go to state 89
+
+
+state 81
+
+   17 DECL_CONSTANTE: const_mc idf deux_points TYPE egal VALEUR . point_virg
+
+    point_virg  shift, and go to state 118
+
+
+state 82
+
+   61 VALEUR: ENTIER .
+
+    $default  reduce using rule 61 (VALEUR)
+
+
+state 83
+
+   62 VALEUR: REEL .
+
+    $default  reduce using rule 62 (VALEUR)
+
+
+state 84
+
+   52 CONDITION: CONDITION . AND_mc CONDITION
+   53          | CONDITION . OR_mc CONDITION
+   54          | NON_mc CONDITION .
+
+    $default  reduce using rule 54 (CONDITION)
+
+
+state 85
+
+   68 SIGNE: sustra .
+
+    $default  reduce using rule 68 (SIGNE)
+
+
+state 86
+
+   67 SIGNE: addition .
+
+    $default  reduce using rule 67 (SIGNE)
+
+
+state 87
+
+   39 EXPRESSION: EXPRESSION . addition TERME
+   40           | EXPRESSION . sustra TERME
+   49 FACTEUR: parenthese_ouvrante EXPRESSION . parenthese_fermante
+   50 CONDITION: EXPRESSION . OPERATEUR_COMP EXPRESSION
+
+    diff_op              shift, and go to state 91
+    egal                 shift, and go to state 92
+    inf_egal             shift, and go to state 93
+    sup_egal             shift, and go to state 94
+    inferieure           shift, and go to state 95
+    supperieure          shift, and go to state 96
+    sustra               shift, and go to state 97
+    addition             shift, and go to state 98
+    parenthese_fermante  shift, and go to state 119
+
+    OPERATEUR_COMP  go to state 99
+
+
+state 88
+
+   51 CONDITION: parenthese_ouvrante CONDITION . parenthese_fermante
+   52          | CONDITION . AND_mc CONDITION
+   53          | CONDITION . OR_mc CONDITION
+
+    OR_mc                shift, and go to state 102
+    AND_mc               shift, and go to state 103
+    parenthese_fermante  shift, and go to state 120
+
+
+state 89
+
+   64 ENTIER: parenthese_ouvrante SIGNE . cst_int parenthese_fermante
+   66 REEL: parenthese_ouvrante SIGNE . cst_float parenthese_fermante
+
+    cst_int    shift, and go to state 121
+    cst_float  shift, and go to state 122
+
+
+state 90
+
+   48 FACTEUR: idf crochet_ouvrant . ENTIER crochet_fermant
+
+    parenthese_ouvrante  shift, and go to state 74
+    cst_int              shift, and go to state 58
+
+    ENTIER  go to state 123
+
+
+state 91
+
+   60 OPERATEUR_COMP: diff_op .
+
+    $default  reduce using rule 60 (OPERATEUR_COMP)
+
+
+state 92
+
+   59 OPERATEUR_COMP: egal .
+
+    $default  reduce using rule 59 (OPERATEUR_COMP)
+
+
+state 93
+
+   58 OPERATEUR_COMP: inf_egal .
+
+    $default  reduce using rule 58 (OPERATEUR_COMP)
+
+
+state 94
+
+   57 OPERATEUR_COMP: sup_egal .
+
+    $default  reduce using rule 57 (OPERATEUR_COMP)
+
+
+state 95
+
+   56 OPERATEUR_COMP: inferieure .
+
+    $default  reduce using rule 56 (OPERATEUR_COMP)
+
+
+state 96
+
+   55 OPERATEUR_COMP: supperieure .
+
+    $default  reduce using rule 55 (OPERATEUR_COMP)
+
+
+state 97
+
+   40 EXPRESSION: EXPRESSION sustra . TERME
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    TERME    go to state 124
+    FACTEUR  go to state 62
+    ENTIER   go to state 64
+    REEL     go to state 65
+
+
+state 98
+
+   39 EXPRESSION: EXPRESSION addition . TERME
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    TERME    go to state 125
+    FACTEUR  go to state 62
+    ENTIER   go to state 64
+    REEL     go to state 65
+
+
+state 99
+
+   50 CONDITION: EXPRESSION OPERATEUR_COMP . EXPRESSION
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 126
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 100
+
+   43 TERME: TERME div_op . FACTEUR
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    FACTEUR  go to state 127
+    ENTIER   go to state 64
+    REEL     go to state 65
+
+
+state 101
+
+   42 TERME: TERME multipl . FACTEUR
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    FACTEUR  go to state 128
+    ENTIER   go to state 64
+    REEL     go to state 65
+
+
+state 102
+
+   53 CONDITION: CONDITION OR_mc . CONDITION
+
+    NON_mc               shift, and go to state 55
+    parenthese_ouvrante  shift, and go to state 56
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 60
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    CONDITION   go to state 129
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 103
+
+   52 CONDITION: CONDITION AND_mc . CONDITION
+
+    NON_mc               shift, and go to state 55
+    parenthese_ouvrante  shift, and go to state 56
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 60
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    CONDITION   go to state 130
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 104
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante . $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    $default  reduce using rule 27 ($@2)
+
+    $@2  go to state 131
+
+
+state 105
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION . parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+   52 CONDITION: CONDITION . AND_mc CONDITION
+   53          | CONDITION . OR_mc CONDITION
+
+    OR_mc                shift, and go to state 102
+    AND_mc               shift, and go to state 103
+    parenthese_fermante  shift, and go to state 132
+
+
+state 106
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR . to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    to_mc  shift, and go to state 133
+
+
+state 107
+
+   35 INSTRUCTION_IO: in_mc parenthese_ouvrante idf parenthese_fermante . point_virg
+
+    point_virg  shift, and go to state 134
+
+
+state 108
+
+   37 LISTE_OUT: chaine virg . idf
+
+    idf  shift, and go to state 135
+
+
+state 109
+
+   34 INSTRUCTION_IO: out_mc parenthese_ouvrante LISTE_OUT parenthese_fermante . point_virg
+
+    point_virg  shift, and go to state 136
+
+
+state 110
+
+   39 EXPRESSION: EXPRESSION . addition TERME
+   40           | EXPRESSION . sustra TERME
+   49 FACTEUR: parenthese_ouvrante EXPRESSION . parenthese_fermante
+
+    sustra               shift, and go to state 97
+    addition             shift, and go to state 98
+    parenthese_fermante  shift, and go to state 119
+
+
+state 111
+
+   25 INSTRUCTION_AFFECTATION: idf affectation EXPRESSION point_virg .
+
+    $default  reduce using rule 25 (INSTRUCTION_AFFECTATION)
+
+
+state 112
+
+   64 ENTIER: parenthese_ouvrante SIGNE . cst_int parenthese_fermante
+
+    cst_int  shift, and go to state 121
+
+
+state 113
+
+   26 INSTRUCTION_AFFECTATION: idf crochet_ouvrant ENTIER crochet_fermant . affectation EXPRESSION point_virg
+
+    affectation  shift, and go to state 137
+
+
+state 114
+
+   12 SUITE_TYPE: crochet_ouvrant TYPE . point_virg ENTIER crochet_fermant
+
+    point_virg  shift, and go to state 138
+
+
+state 115
+
+    8 DECL_DEFINE: define_mc idf $@1 LISTE_IDFS_SUITE deux_points SUITE_TYPE point_virg .
+
+    $default  reduce using rule 8 (DECL_DEFINE)
+
+
+state 116
+
+   15 OPT_INIT: egal . VALEUR
+
+    parenthese_ouvrante  shift, and go to state 80
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    VALEUR  go to state 139
+    ENTIER  go to state 82
+    REEL    go to state 83
+
+
+state 117
+
+   11 SUITE_TYPE: TYPE OPT_INIT .
+
+    $default  reduce using rule 11 (SUITE_TYPE)
+
+
+state 118
+
+   17 DECL_CONSTANTE: const_mc idf deux_points TYPE egal VALEUR point_virg .
+
+    $default  reduce using rule 17 (DECL_CONSTANTE)
+
+
+state 119
+
+   49 FACTEUR: parenthese_ouvrante EXPRESSION parenthese_fermante .
+
+    $default  reduce using rule 49 (FACTEUR)
+
+
+state 120
+
+   51 CONDITION: parenthese_ouvrante CONDITION parenthese_fermante .
+
+    $default  reduce using rule 51 (CONDITION)
+
+
+state 121
+
+   64 ENTIER: parenthese_ouvrante SIGNE cst_int . parenthese_fermante
+
+    parenthese_fermante  shift, and go to state 140
+
+
+state 122
+
+   66 REEL: parenthese_ouvrante SIGNE cst_float . parenthese_fermante
+
+    parenthese_fermante  shift, and go to state 141
+
+
+state 123
+
+   48 FACTEUR: idf crochet_ouvrant ENTIER . crochet_fermant
+
+    crochet_fermant  shift, and go to state 142
+
+
+state 124
+
+   40 EXPRESSION: EXPRESSION sustra TERME .
+   42 TERME: TERME . multipl FACTEUR
+   43      | TERME . div_op FACTEUR
+
+    div_op   shift, and go to state 100
+    multipl  shift, and go to state 101
+
+    $default  reduce using rule 40 (EXPRESSION)
+
+
+state 125
+
+   39 EXPRESSION: EXPRESSION addition TERME .
+   42 TERME: TERME . multipl FACTEUR
+   43      | TERME . div_op FACTEUR
+
+    div_op   shift, and go to state 100
+    multipl  shift, and go to state 101
+
+    $default  reduce using rule 39 (EXPRESSION)
+
+
+state 126
+
+   39 EXPRESSION: EXPRESSION . addition TERME
+   40           | EXPRESSION . sustra TERME
+   50 CONDITION: EXPRESSION OPERATEUR_COMP EXPRESSION .
+
+    sustra    shift, and go to state 97
+    addition  shift, and go to state 98
+
+    $default  reduce using rule 50 (CONDITION)
+
+
+state 127
+
+   43 TERME: TERME div_op FACTEUR .
+
+    $default  reduce using rule 43 (TERME)
+
+
+state 128
+
+   42 TERME: TERME multipl FACTEUR .
+
+    $default  reduce using rule 42 (TERME)
+
+
+state 129
+
+   52 CONDITION: CONDITION . AND_mc CONDITION
+   53          | CONDITION . OR_mc CONDITION
+   53          | CONDITION OR_mc CONDITION .
+
+    AND_mc  shift, and go to state 103
+
+    $default  reduce using rule 53 (CONDITION)
+
+
+state 130
+
+   52 CONDITION: CONDITION . AND_mc CONDITION
+   52          | CONDITION AND_mc CONDITION .
+   53          | CONDITION . OR_mc CONDITION
+
+    $default  reduce using rule 52 (CONDITION)
+
+
+state 131
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 . then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    then_mc  shift, and go to state 143
+
+
+state 132
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante . accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+
+    accolade_ouvrante  shift, and go to state 144
+
+
+state 133
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc . VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    parenthese_ouvrante  shift, and go to state 80
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    VALEUR  go to state 145
+    ENTIER  go to state 82
+    REEL    go to state 83
+
+
+state 134
+
+   35 INSTRUCTION_IO: in_mc parenthese_ouvrante idf parenthese_fermante point_virg .
+
+    $default  reduce using rule 35 (INSTRUCTION_IO)
+
+
+state 135
+
+   37 LISTE_OUT: chaine virg idf .
+
+    $default  reduce using rule 37 (LISTE_OUT)
+
+
+state 136
+
+   34 INSTRUCTION_IO: out_mc parenthese_ouvrante LISTE_OUT parenthese_fermante point_virg .
+
+    $default  reduce using rule 34 (INSTRUCTION_IO)
+
+
+state 137
+
+   26 INSTRUCTION_AFFECTATION: idf crochet_ouvrant ENTIER crochet_fermant affectation . EXPRESSION point_virg
+
+    parenthese_ouvrante  shift, and go to state 72
+    idf                  shift, and go to state 57
+    cst_int              shift, and go to state 58
+    cst_float            shift, and go to state 59
+
+    EXPRESSION  go to state 146
+    TERME       go to state 61
+    FACTEUR     go to state 62
+    ENTIER      go to state 64
+    REEL        go to state 65
+
+
+state 138
+
+   12 SUITE_TYPE: crochet_ouvrant TYPE point_virg . ENTIER crochet_fermant
+
+    parenthese_ouvrante  shift, and go to state 74
+    cst_int              shift, and go to state 58
+
+    ENTIER  go to state 147
+
+
+state 139
+
+   15 OPT_INIT: egal VALEUR .
+
+    $default  reduce using rule 15 (OPT_INIT)
+
+
+state 140
+
+   64 ENTIER: parenthese_ouvrante SIGNE cst_int parenthese_fermante .
+
+    $default  reduce using rule 64 (ENTIER)
+
+
+state 141
+
+   66 REEL: parenthese_ouvrante SIGNE cst_float parenthese_fermante .
+
+    $default  reduce using rule 66 (REEL)
+
+
+state 142
+
+   48 FACTEUR: idf crochet_ouvrant ENTIER crochet_fermant .
+
+    $default  reduce using rule 48 (FACTEUR)
+
+
+state 143
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc . OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    deux_points  shift, and go to state 148
+
+    $default  reduce using rule 31 (OPT_DEUX_POINTS)
+
+    OPT_DEUX_POINTS  go to state 149
+
+
+state 144
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante . LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg
+
+    if_mc    shift, and go to state 26
+    loop_mc  shift, and go to state 27
+    for_mc   shift, and go to state 28
+    in_mc    shift, and go to state 29
+    out_mc   shift, and go to state 30
+    idf      shift, and go to state 31
+
+    $default  reduce using rule 20 (LISTE_INSTRUCTIONS)
+
+    LISTE_INSTRUCTIONS       go to state 150
+    UNE_INSTRUCTION          go to state 33
+    INSTRUCTION_AFFECTATION  go to state 34
+    INSTRUCTION_CONDITION    go to state 35
+    INSTRUCTION_BOUCLE       go to state 36
+    INSTRUCTION_IO           go to state 37
+
+
+state 145
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc VALEUR . accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    accolade_ouvrante  shift, and go to state 151
+
+
+state 146
+
+   26 INSTRUCTION_AFFECTATION: idf crochet_ouvrant ENTIER crochet_fermant affectation EXPRESSION . point_virg
+   39 EXPRESSION: EXPRESSION . addition TERME
+   40           | EXPRESSION . sustra TERME
+
+    sustra      shift, and go to state 97
+    addition    shift, and go to state 98
+    point_virg  shift, and go to state 152
+
+
+state 147
+
+   12 SUITE_TYPE: crochet_ouvrant TYPE point_virg ENTIER . crochet_fermant
+
+    crochet_fermant  shift, and go to state 153
+
+
+state 148
+
+   30 OPT_DEUX_POINTS: deux_points .
+
+    $default  reduce using rule 30 (OPT_DEUX_POINTS)
+
+
+state 149
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS . accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    accolade_ouvrante  shift, and go to state 154
+
+
+state 150
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS . accolade_fermante endloop_mc point_virg
+
+    accolade_fermante  shift, and go to state 155
+
+
+state 151
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc VALEUR accolade_ouvrante . LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg
+
+    if_mc    shift, and go to state 26
+    loop_mc  shift, and go to state 27
+    for_mc   shift, and go to state 28
+    in_mc    shift, and go to state 29
+    out_mc   shift, and go to state 30
+    idf      shift, and go to state 31
+
+    $default  reduce using rule 20 (LISTE_INSTRUCTIONS)
+
+    LISTE_INSTRUCTIONS       go to state 156
+    UNE_INSTRUCTION          go to state 33
+    INSTRUCTION_AFFECTATION  go to state 34
+    INSTRUCTION_CONDITION    go to state 35
+    INSTRUCTION_BOUCLE       go to state 36
+    INSTRUCTION_IO           go to state 37
+
+
+state 152
+
+   26 INSTRUCTION_AFFECTATION: idf crochet_ouvrant ENTIER crochet_fermant affectation EXPRESSION point_virg .
+
+    $default  reduce using rule 26 (INSTRUCTION_AFFECTATION)
+
+
+state 153
+
+   12 SUITE_TYPE: crochet_ouvrant TYPE point_virg ENTIER crochet_fermant .
+
+    $default  reduce using rule 12 (SUITE_TYPE)
+
+
+state 154
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante . LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    if_mc    shift, and go to state 26
+    loop_mc  shift, and go to state 27
+    for_mc   shift, and go to state 28
+    in_mc    shift, and go to state 29
+    out_mc   shift, and go to state 30
+    idf      shift, and go to state 31
+
+    $default  reduce using rule 20 (LISTE_INSTRUCTIONS)
+
+    LISTE_INSTRUCTIONS       go to state 157
+    UNE_INSTRUCTION          go to state 33
+    INSTRUCTION_AFFECTATION  go to state 34
+    INSTRUCTION_CONDITION    go to state 35
+    INSTRUCTION_BOUCLE       go to state 36
+    INSTRUCTION_IO           go to state 37
+
+
+state 155
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante . endloop_mc point_virg
+
+    endloop_mc  shift, and go to state 158
+
+
+state 156
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS . accolade_fermante endfor_mc point_virg
+
+    accolade_fermante  shift, and go to state 159
+
+
+state 157
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS . accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    accolade_fermante  shift, and go to state 160
+
+
+state 158
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc . point_virg
+
+    point_virg  shift, and go to state 161
+
+
+state 159
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante . endfor_mc point_virg
+
+    endfor_mc  shift, and go to state 162
+
+
+state 160
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante . $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    $default  reduce using rule 28 ($@3)
+
+    $@3  go to state 163
+
+
+state 161
+
+   32 INSTRUCTION_BOUCLE: loop_mc while_mc parenthese_ouvrante CONDITION parenthese_fermante accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endloop_mc point_virg .
+
+    $default  reduce using rule 32 (INSTRUCTION_BOUCLE)
+
+
+state 162
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc . point_virg
+
+    point_virg  shift, and go to state 164
+
+
+state 163
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 . else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    else_mc  shift, and go to state 165
+
+
+state 164
+
+   33 INSTRUCTION_BOUCLE: for_mc idf in_mc VALEUR to_mc VALEUR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endfor_mc point_virg .
+
+    $default  reduce using rule 33 (INSTRUCTION_BOUCLE)
+
+
+state 165
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc . accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    accolade_ouvrante  shift, and go to state 166
+
+
+state 166
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante . LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg
+
+    if_mc    shift, and go to state 26
+    loop_mc  shift, and go to state 27
+    for_mc   shift, and go to state 28
+    in_mc    shift, and go to state 29
+    out_mc   shift, and go to state 30
+    idf      shift, and go to state 31
+
+    $default  reduce using rule 20 (LISTE_INSTRUCTIONS)
+
+    LISTE_INSTRUCTIONS       go to state 167
+    UNE_INSTRUCTION          go to state 33
+    INSTRUCTION_AFFECTATION  go to state 34
+    INSTRUCTION_CONDITION    go to state 35
+    INSTRUCTION_BOUCLE       go to state 36
+    INSTRUCTION_IO           go to state 37
+
+
+state 167
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS . accolade_fermante endIf_mc point_virg
+
+    accolade_fermante  shift, and go to state 168
+
+
+state 168
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante . endIf_mc point_virg
+
+    endIf_mc  shift, and go to state 169
+
+
+state 169
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc . point_virg
+
+    point_virg  shift, and go to state 170
+
+
+state 170
+
+   29 INSTRUCTION_CONDITION: if_mc parenthese_ouvrante CONDITION parenthese_fermante $@2 then_mc OPT_DEUX_POINTS accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante $@3 else_mc accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante endIf_mc point_virg .
+
+    $default  reduce using rule 29 (INSTRUCTION_CONDITION)

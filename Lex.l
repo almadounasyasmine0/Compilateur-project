@@ -37,7 +37,6 @@ String  \"[^"]*\"
 "to"           {nb_colonne+=yyleng; return to_mc;}
 "endfor"       {nb_colonne+=yyleng; return endfor_mc;}
 "out"          {nb_colonne+=yyleng; return out_mc;}
-"in"           {nb_colonne+=yyleng; return in_mc;}
 
 "<-"           {nb_colonne+=yyleng; return affectation;}
 ":"            {nb_colonne+=yyleng; return deux_points;}
@@ -71,8 +70,9 @@ String  \"[^"]*\"
 
 "%%".* { /* Commentaire ligne : on ne fait rien */ }
 "//*"([^*]|\*+[^*/])*\*+"//" { 
+    int i;
     /* Commentaire multi-ligne */
-    for(int i=0; i<yyleng; i++) {
+    for(i=0; i<yyleng; i++) {
         if(yytext[i]=='\n') { nb_ligne++; nb_colonne=1; }
         else nb_colonne++;
     }
@@ -99,7 +99,7 @@ String  \"[^"]*\"
     return idf;
 }
 
-{String}       {nb_colonne+=yyleng; return chaine;}
+{String}       {nb_colonne+=yyleng; yylval.str = strdup(yytext); return chaine;}
 
 [ \t]          {nb_colonne++;}
 \n             {nb_ligne++; nb_colonne=1;}
