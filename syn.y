@@ -3,15 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ts.h"
+#include "quad.h"
+#include "optimizationQdr.h"
 
 /* --- VARIABLES ET DÉCLARATIONS C --- */
 char saved_name[20];
 int yylex();
 void yyerror(const char *s);
 void erreurSemantique(char* message, char* entite);
-void quadr(char oper[], char op1[], char op2[], char res[]);
-void updateQuad(int num_quad, int colon_quad, char val[]);
-void afficher_qdr();
 
 /* --- Partie Quadruplets ---*/
 
@@ -233,53 +232,53 @@ BLOC_WHILE : TETE_WHILE accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante
 /* R1 for: initialisation, test de borne et reservation du BZ */
 TETE_FOR : for_mc idf in_mc VALEUR to_mc VALEUR
            {
-               Element* e;
-               char* temp;
+                Element* e;
+                char* temp;
 
-               idf_for[0] = '\0';
-               borne_for[0] = '\0';
-               e = rechercher($2);
+                idf_for[0] = '\0';
+                borne_for[0] = '\0';
+                e = rechercher($2);
 
-               if (!e) {
-                   erreurSemantique("Variable non declaree", $2);
+                if (!e) {
+                    erreurSemantique("Variable non declaree", $2);
                } else if (strcmp(e->code, "Constante") == 0) {
                    erreurSemantique("Interdit de modifier une constante", $2);
-               } else if (strcmp(e->type, "integer") != 0 ||
-                          strcmp($4.type, "integer") != 0 ||
-                          strcmp($6.type, "integer") != 0) {
-                   erreurSemantique("Boucle for exige des entiers", $2);
-               } else {
-                   strcpy(idf_for, $2);
-                   strcpy(borne_for, $6.nom);
-                   quadr(":=", $4.nom, "_", idf_for);
-                   deb_for = qc;
-                   temp = creer_temp();
-                   quadr("<=", idf_for, borne_for, temp);
-                   fin_for = qc;
-                   quadr("BZ", "", temp, "vide");
-               }
-           }
-           ;
+                } else if (strcmp(e->type, "integer") != 0 ||
+                           strcmp($4.type, "integer") != 0 ||
+                           strcmp($6.type, "integer") != 0) {
+                    erreurSemantique("Boucle for exige des entiers", $2);
+                } else {
+                    strcpy(idf_for, $2);
+                    strcpy(borne_for, $6.nom);
+                    quadr(":=", $4.nom, "_", idf_for);
+                    deb_for = qc;
+                    temp = creer_temp();
+                    quadr("<=", idf_for, borne_for, temp);
+                    fin_for = qc;
+                    quadr("BZ", "", temp, "vide");
+                }
+            }
+            ;
 
 /* R2 for: incrementation, retour au test puis MAJ du BZ */
 BLOC_FOR : TETE_FOR accolade_ouvrante LISTE_INSTRUCTIONS accolade_fermante
-           endfor_mc point_virg
-           {
-               char* temp;
+            endfor_mc point_virg
+            {
+                char* temp;
 
-               if (idf_for[0] != '\0') {
-                   temp = creer_temp();
-                   quadr("+", idf_for, "1", temp);
-                   quadr(":=", temp, "_", idf_for);
-                   sprintf(tmp, "%d", deb_for);
-                   quadr("BR", tmp, "vide", "vide");
-                   sprintf(tmp, "%d", qc);
-                   updateQuad(fin_for, 1, tmp);
-                   idf_for[0] = '\0';
-                   borne_for[0] = '\0';
-               }
-           }
-           ;
+                if (idf_for[0] != '\0') {
+                    temp = creer_temp();
+                    quadr("+", idf_for, "1", temp);
+                    quadr(":=", temp, "_", idf_for);
+                    sprintf(tmp, "%d", deb_for);
+                    quadr("BR", tmp, "vide", "vide");
+                    sprintf(tmp, "%d", qc);
+                    updateQuad(fin_for, 1, tmp);
+                    idf_for[0] = '\0';
+                    borne_for[0] = '\0';
+                }
+            }
+            ;
 
 INSTRUCTION_IO : out_mc parenthese_ouvrante LISTE_OUT parenthese_fermante point_virg
                | in_mc parenthese_ouvrante idf parenthese_fermante point_virg
@@ -517,6 +516,7 @@ void yyerror(const char *s) {
 int main() {
     initialiserTS();
     yyparse();
+    optimiserQuadruplets();
     afficherTS();
     afficher_qdr();
     return 0;

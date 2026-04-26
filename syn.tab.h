@@ -35,7 +35,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 1676 of yacc.c  */
-#line 39 "syn.y"
+#line 38 "syn.y"
 
     typedef struct {
         char* nom;
@@ -112,7 +112,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 46 "syn.y"
+#line 45 "syn.y"
 
     char* str;
     char* v_type;

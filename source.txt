@@ -17,6 +17,11 @@ Run :
 {
     %% Test de l'affectation et arithmetique
     a <- 10;
+    
+    %% --- USELESS INSTRUCTION FOR OPTIMIZATION TEST ---
+    a <- a + 0; 
+    %% -------------------------------------------------
+
     b <- a * 2 + x;
     
     %% Test de la condition if-then-else

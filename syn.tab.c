@@ -74,15 +74,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ts.h"
+#include "quad.h"
+#include "optimizationQdr.h"
 
 /* --- VARIABLES ET DÉCLARATIONS C --- */
 char saved_name[20];
 int yylex();
 void yyerror(const char *s);
 void erreurSemantique(char* message, char* entite);
-void quadr(char oper[], char op1[], char op2[], char res[]);
-void updateQuad(int num_quad, int colon_quad, char val[]);
-void afficher_qdr();
 
 /* --- Partie Quadruplets ---*/
 
@@ -108,7 +107,7 @@ char* creer_temp() {
 
 
 /* Line 189 of yacc.c  */
-#line 112 "syn.tab.c"
+#line 111 "syn.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -131,7 +130,7 @@ char* creer_temp() {
 /* "%code requires" blocks.  */
 
 /* Line 209 of yacc.c  */
-#line 39 "syn.y"
+#line 38 "syn.y"
 
     typedef struct {
         char* nom;
@@ -141,7 +140,7 @@ char* creer_temp() {
 
 
 /* Line 209 of yacc.c  */
-#line 145 "syn.tab.c"
+#line 144 "syn.tab.c"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -208,7 +207,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 46 "syn.y"
+#line 45 "syn.y"
 
     char* str;
     char* v_type;
@@ -217,7 +216,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 221 "syn.tab.c"
+#line 220 "syn.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -229,7 +228,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 233 "syn.tab.c"
+#line 232 "syn.tab.c"
 
 #ifdef short
 # undef short
@@ -547,14 +546,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    83,    83,    88,    90,    90,    92,    92,    95,    95,
-     102,   107,   109,   113,   121,   122,   125,   125,   128,   142,
-     144,   144,   146,   146,   146,   146,   148,   160,   175,   184,
-     192,   201,   202,   206,   207,   212,   211,   223,   234,   265,
-     284,   285,   293,   297,   304,   312,   329,   346,   349,   366,
-     383,   386,   399,   400,   401,   416,   420,   437,   438,   446,
-     454,   464,   465,   466,   467,   468,   469,   472,   473,   476,
-     481,   489,   494,   502,   502
+       0,    82,    82,    87,    89,    89,    91,    91,    94,    94,
+     101,   106,   108,   112,   120,   121,   124,   124,   127,   141,
+     143,   143,   145,   145,   145,   145,   147,   159,   174,   183,
+     191,   200,   201,   205,   206,   211,   210,   222,   233,   264,
+     283,   284,   292,   296,   303,   311,   328,   345,   348,   365,
+     382,   385,   398,   399,   400,   415,   419,   436,   437,   445,
+     453,   463,   464,   465,   466,   467,   468,   471,   472,   475,
+     480,   488,   493,   501,   501
 };
 #endif
 
@@ -1582,14 +1581,14 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 84 "syn.y"
+#line 83 "syn.y"
     { printf("Felicitations : La structure du programme ProLang est valide !\n"); ;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 95 "syn.y"
+#line 94 "syn.y"
     { 
                 if (rechercher((yyvsp[(2) - (2)].str)) == NULL) inserer((yyvsp[(2) - (2)].str), "Variable", "attente", 0, 0);
                 else erreurSemantique("Double declaration", (yyvsp[(2) - (2)].str));
@@ -1600,7 +1599,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 103 "syn.y"
+#line 102 "syn.y"
     {
                     if (rechercher((yyvsp[(2) - (3)].str)) == NULL) inserer((yyvsp[(2) - (3)].str), "Variable", "attente", 0, 0);
                     else erreurSemantique("Double declaration", (yyvsp[(2) - (3)].str));
@@ -1610,7 +1609,7 @@ yyreduce:
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 110 "syn.y"
+#line 109 "syn.y"
     { 
                 mettreAjourType("attente", (yyvsp[(1) - (2)].str), 0);
             ;}
@@ -1619,7 +1618,7 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 114 "syn.y"
+#line 113 "syn.y"
     { 
                 int t = atoi((yyvsp[(4) - (5)].attr).nom);
                 if (t <= 0) erreurSemantique("Taille tableau doit etre > 0", "Tableau");
@@ -1630,21 +1629,21 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 121 "syn.y"
+#line 120 "syn.y"
     { (yyval.str) = "integer"; ;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 122 "syn.y"
+#line 121 "syn.y"
     { (yyval.str) = "float"; ;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 129 "syn.y"
+#line 128 "syn.y"
     {
     if (rechercher((yyvsp[(2) - (7)].str)) == NULL) {
         double val = atof((yyvsp[(6) - (7)].attr).nom);
@@ -1660,7 +1659,7 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 149 "syn.y"
+#line 148 "syn.y"
     {
         Element* e = rechercher((yyvsp[(1) - (4)].str));
         if (!e) erreurSemantique("Variable non declaree", (yyvsp[(1) - (4)].str));
@@ -1677,7 +1676,7 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 161 "syn.y"
+#line 160 "syn.y"
     {
         Element* e = rechercher((yyvsp[(1) - (7)].str));
         char dest[100];
@@ -1694,7 +1693,7 @@ yyreduce:
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 177 "syn.y"
+#line 176 "syn.y"
     {
                             sprintf(tmp, "%d", qc);
                             updateQuad(Fin_if, 1, tmp);
@@ -1704,7 +1703,7 @@ yyreduce:
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 185 "syn.y"
+#line 184 "syn.y"
     {
               deb_else = qc;
               quadr("BZ", "", (yyvsp[(3) - (4)].attr).nom, "vide");
@@ -1714,7 +1713,7 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 193 "syn.y"
+#line 192 "syn.y"
     {
               Fin_if = qc;
               quadr("BR", "", "vide", "vide");
@@ -1726,7 +1725,7 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 212 "syn.y"
+#line 211 "syn.y"
     {
                  deb_while = qc;
              ;}
@@ -1735,7 +1734,7 @@ yyreduce:
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 216 "syn.y"
+#line 215 "syn.y"
     {
                  fin_while = qc;
                  quadr("BZ", "", (yyvsp[(5) - (6)].attr).nom, "vide");
@@ -1745,7 +1744,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 225 "syn.y"
+#line 224 "syn.y"
     {
                  sprintf(tmp, "%d", deb_while);
                  quadr("BR", tmp, "vide", "vide");
@@ -1757,61 +1756,61 @@ yyreduce:
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 235 "syn.y"
+#line 234 "syn.y"
     {
-               Element* e;
-               char* temp;
+                Element* e;
+                char* temp;
 
-               idf_for[0] = '\0';
-               borne_for[0] = '\0';
-               e = rechercher((yyvsp[(2) - (6)].str));
+                idf_for[0] = '\0';
+                borne_for[0] = '\0';
+                e = rechercher((yyvsp[(2) - (6)].str));
 
-               if (!e) {
-                   erreurSemantique("Variable non declaree", (yyvsp[(2) - (6)].str));
+                if (!e) {
+                    erreurSemantique("Variable non declaree", (yyvsp[(2) - (6)].str));
                } else if (strcmp(e->code, "Constante") == 0) {
                    erreurSemantique("Interdit de modifier une constante", (yyvsp[(2) - (6)].str));
-               } else if (strcmp(e->type, "integer") != 0 ||
-                          strcmp((yyvsp[(4) - (6)].attr).type, "integer") != 0 ||
-                          strcmp((yyvsp[(6) - (6)].attr).type, "integer") != 0) {
-                   erreurSemantique("Boucle for exige des entiers", (yyvsp[(2) - (6)].str));
-               } else {
-                   strcpy(idf_for, (yyvsp[(2) - (6)].str));
-                   strcpy(borne_for, (yyvsp[(6) - (6)].attr).nom);
-                   quadr(":=", (yyvsp[(4) - (6)].attr).nom, "_", idf_for);
-                   deb_for = qc;
-                   temp = creer_temp();
-                   quadr("<=", idf_for, borne_for, temp);
-                   fin_for = qc;
-                   quadr("BZ", "", temp, "vide");
-               }
-           ;}
+                } else if (strcmp(e->type, "integer") != 0 ||
+                           strcmp((yyvsp[(4) - (6)].attr).type, "integer") != 0 ||
+                           strcmp((yyvsp[(6) - (6)].attr).type, "integer") != 0) {
+                    erreurSemantique("Boucle for exige des entiers", (yyvsp[(2) - (6)].str));
+                } else {
+                    strcpy(idf_for, (yyvsp[(2) - (6)].str));
+                    strcpy(borne_for, (yyvsp[(6) - (6)].attr).nom);
+                    quadr(":=", (yyvsp[(4) - (6)].attr).nom, "_", idf_for);
+                    deb_for = qc;
+                    temp = creer_temp();
+                    quadr("<=", idf_for, borne_for, temp);
+                    fin_for = qc;
+                    quadr("BZ", "", temp, "vide");
+                }
+            ;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 267 "syn.y"
+#line 266 "syn.y"
     {
-               char* temp;
+                char* temp;
 
-               if (idf_for[0] != '\0') {
-                   temp = creer_temp();
-                   quadr("+", idf_for, "1", temp);
-                   quadr(":=", temp, "_", idf_for);
-                   sprintf(tmp, "%d", deb_for);
-                   quadr("BR", tmp, "vide", "vide");
-                   sprintf(tmp, "%d", qc);
-                   updateQuad(fin_for, 1, tmp);
-                   idf_for[0] = '\0';
-                   borne_for[0] = '\0';
-               }
-           ;}
+                if (idf_for[0] != '\0') {
+                    temp = creer_temp();
+                    quadr("+", idf_for, "1", temp);
+                    quadr(":=", temp, "_", idf_for);
+                    sprintf(tmp, "%d", deb_for);
+                    quadr("BR", tmp, "vide", "vide");
+                    sprintf(tmp, "%d", qc);
+                    updateQuad(fin_for, 1, tmp);
+                    idf_for[0] = '\0';
+                    borne_for[0] = '\0';
+                }
+            ;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 286 "syn.y"
+#line 285 "syn.y"
     {
                     Element* e = rechercher((yyvsp[(3) - (5)].str));
                     if (!e) erreurSemantique("Variable non declaree", (yyvsp[(3) - (5)].str));
@@ -1823,7 +1822,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 294 "syn.y"
+#line 293 "syn.y"
     {
                 quadr("WRITE", (yyvsp[(1) - (1)].str), "_", "_");
             ;}
@@ -1832,7 +1831,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 298 "syn.y"
+#line 297 "syn.y"
     {
                 Element* e = rechercher((yyvsp[(3) - (3)].str));
                 quadr("WRITE", (yyvsp[(1) - (3)].str), "_", "_");
@@ -1844,7 +1843,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 305 "syn.y"
+#line 304 "syn.y"
     {
                 Element* e = rechercher((yyvsp[(1) - (1)].str));
                 if (!e) erreurSemantique("Variable non declaree", (yyvsp[(1) - (1)].str));
@@ -1855,7 +1854,7 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 313 "syn.y"
+#line 312 "syn.y"
     {
                 char* temp;
                 if (strcmp((yyvsp[(1) - (3)].attr).type, "error") == 0 || strcmp((yyvsp[(3) - (3)].attr).type, "error") == 0) {
@@ -1877,7 +1876,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 330 "syn.y"
+#line 329 "syn.y"
     {
                 char* temp;
                 if (strcmp((yyvsp[(1) - (3)].attr).type, "error") == 0 || strcmp((yyvsp[(3) - (3)].attr).type, "error") == 0) {
@@ -1899,14 +1898,14 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 346 "syn.y"
+#line 345 "syn.y"
     { (yyval.attr) = (yyvsp[(1) - (1)].attr); ;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 350 "syn.y"
+#line 349 "syn.y"
     {
             char* temp;
             if (strcmp((yyvsp[(1) - (3)].attr).type, "error") == 0 || strcmp((yyvsp[(3) - (3)].attr).type, "error") == 0) {
@@ -1928,7 +1927,7 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 367 "syn.y"
+#line 366 "syn.y"
     {
             char* temp;
             if (strcmp((yyvsp[(1) - (3)].attr).type, "error") == 0 || strcmp((yyvsp[(3) - (3)].attr).type, "error") == 0) {
@@ -1950,14 +1949,14 @@ yyreduce:
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 383 "syn.y"
+#line 382 "syn.y"
     { (yyval.attr) = (yyvsp[(1) - (1)].attr); ;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 387 "syn.y"
+#line 386 "syn.y"
     { 
             Element* e = rechercher((yyvsp[(1) - (1)].str)); 
             if(!e){
@@ -1975,21 +1974,21 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 399 "syn.y"
+#line 398 "syn.y"
     { (yyval.attr) = (yyvsp[(1) - (1)].attr); ;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 400 "syn.y"
+#line 399 "syn.y"
     { (yyval.attr) = (yyvsp[(1) - (1)].attr); ;}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 402 "syn.y"
+#line 401 "syn.y"
     { 
             Element* e = rechercher((yyvsp[(1) - (4)].str)); 
             char ref[100];
@@ -2009,14 +2008,14 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 416 "syn.y"
+#line 415 "syn.y"
     { (yyval.attr) = (yyvsp[(2) - (3)].attr); ;}
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 421 "syn.y"
+#line 420 "syn.y"
     {
                 char* temp;
                 if (strcmp((yyvsp[(1) - (3)].attr).type, "error") == 0 || strcmp((yyvsp[(3) - (3)].attr).type, "error") == 0) {
@@ -2038,14 +2037,14 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 437 "syn.y"
+#line 436 "syn.y"
     { (yyval.attr) = (yyvsp[(2) - (3)].attr); ;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 439 "syn.y"
+#line 438 "syn.y"
     {
                 char* temp;
                 temp = creer_temp();
@@ -2058,7 +2057,7 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 447 "syn.y"
+#line 446 "syn.y"
     {
                 char* temp;
                 temp = creer_temp();
@@ -2071,7 +2070,7 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 455 "syn.y"
+#line 454 "syn.y"
     {
                 char* temp;
                 temp = creer_temp();
@@ -2084,63 +2083,63 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 464 "syn.y"
+#line 463 "syn.y"
     { (yyval.str) = ">"; ;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 465 "syn.y"
+#line 464 "syn.y"
     { (yyval.str) = "<"; ;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 466 "syn.y"
+#line 465 "syn.y"
     { (yyval.str) = ">="; ;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 467 "syn.y"
+#line 466 "syn.y"
     { (yyval.str) = "<="; ;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 468 "syn.y"
+#line 467 "syn.y"
     { (yyval.str) = "=="; ;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 469 "syn.y"
+#line 468 "syn.y"
     { (yyval.str) = "!="; ;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 472 "syn.y"
+#line 471 "syn.y"
     { (yyval.attr) = (yyvsp[(1) - (1)].attr); ;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 473 "syn.y"
+#line 472 "syn.y"
     { (yyval.attr) = (yyvsp[(1) - (1)].attr); ;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 477 "syn.y"
+#line 476 "syn.y"
     {
             (yyval.attr).nom = (yyvsp[(1) - (1)].str);
             (yyval.attr).type = "integer";
@@ -2150,7 +2149,7 @@ yyreduce:
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 482 "syn.y"
+#line 481 "syn.y"
     {
             char t[50];
             sprintf(t, "%s%s", (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str));
@@ -2162,7 +2161,7 @@ yyreduce:
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 490 "syn.y"
+#line 489 "syn.y"
     {
             (yyval.attr).nom = (yyvsp[(1) - (1)].str);
             (yyval.attr).type = "float";
@@ -2172,7 +2171,7 @@ yyreduce:
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 495 "syn.y"
+#line 494 "syn.y"
     {
             char t[50];
             sprintf(t, "%s%s", (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str));
@@ -2184,21 +2183,21 @@ yyreduce:
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 502 "syn.y"
+#line 501 "syn.y"
     { (yyval.str) = "+"; ;}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 502 "syn.y"
+#line 501 "syn.y"
     { (yyval.str) = "-"; ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2202 "syn.tab.c"
+#line 2201 "syn.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2410,7 +2409,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 504 "syn.y"
+#line 503 "syn.y"
 
 
 void erreurSemantique(char* message, char* entite) {
@@ -2427,6 +2426,7 @@ void yyerror(const char *s) {
 int main() {
     initialiserTS();
     yyparse();
+    optimiserQuadruplets();
     afficherTS();
     afficher_qdr();
     return 0;

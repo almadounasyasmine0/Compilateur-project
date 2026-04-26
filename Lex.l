@@ -1,4 +1,5 @@
 %{
+    #define QUAD_IMPLEMENTATION
     #include "quad.h"
     #include "syn.tab.h"
     #include <string.h>
@@ -9,7 +10,7 @@
 /* Définitions */
 
 /* IDF conforme : commence par lettre, min, chiffres, _, pas de __ au milieu, pas de _ à la fin */
-Idf     [a-z]([a-z0-9]|(_[a-z0-9]))*
+Idf     [a-zA-Z]([a-z0-9]|(_[a-z0-9]))*
 
 Integer [0-9]+
 Float   [0-9]+\.[0-9]+
@@ -38,7 +39,7 @@ String  \"[^"]*\"
 "endfor"       {nb_colonne+=yyleng; return endfor_mc;}
 "out"          {nb_colonne+=yyleng; return out_mc;}
 
-"<-"           {nb_colonne+=yyleng; return affectation;}
+"<--"           {nb_colonne+=yyleng; return affectation;}
 ":"            {nb_colonne+=yyleng; return deux_points;}
 ";"            {nb_colonne+=yyleng; return point_virg;}
 "("            {nb_colonne+=yyleng; return parenthese_ouvrante;}
